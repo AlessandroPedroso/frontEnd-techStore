@@ -76,6 +76,8 @@ header {
 
 .categories-container {
   background-color: var(--secondary-color);
+  display: flex;
+  justify-content: center;
 }
 
 .categories-bar {
@@ -86,7 +88,7 @@ header {
   gap: 1rem;
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto;
+  /* margin: 0 auto; */
 }
 
 .category-btn {
@@ -138,4 +140,74 @@ footer {
   color: var(--white-color);
   text-align: center;
   padding: 2rem;
+}
+
+.products {
+  max-width: 1200px;
+  padding: 2rem;
+  margin: 0 auto;
+}
+
+.products-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.product-card {
+  background-color: var(--white-color);
+  border-radius: 1rem;
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.product-card:hover {
+  transform: translateY(-1rem);
+}
+
+.product-img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.product-info {
+  padding: 1.5rem;
+}
+
+.product-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.product-description {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.product-price {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.product-button {
+  width: 100%;
+  background-color: var(--accent-color);
+  color: var(--white-color);
+  border: none;
+  padding: 0.7rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.product-button:hover {
+  background-color: #68bcf3;
 }
