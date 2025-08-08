@@ -89,12 +89,27 @@ let produtos = [
   },
 ];
 
+let textoPesquisa = "";
+let categoriaAtual = "all"; // todos
+
 let containerProdutos = document.querySelector(".products-container"); //nessa div vai os produtos
+let input = document.querySelector(".search-input");
+let todosBotoes = document.querySelectorAll(".category-btn");
 
 function mostrarProdutos() {
   let htmlProdutos = "";
 
-  produtos.forEach((prd) => {
+  let produtosFiltrados = produtos.filter((prd) => {
+    let passouCategoria =
+      categoriaAtual === "all" || prd.categoria === categoriaAtual;
+
+    let passouPesquisa = prd.nome
+      .toLowerCase()
+      .includes(textoPesquisa.toLowerCase());
+    return passouPesquisa && passouCategoria;
+  });
+
+  produtosFiltrados.forEach((prd) => {
     const precoFormatado = prd.preco.toLocaleString("pt-BR", {
       style: "currency",
       currency: "BRL",
@@ -122,36 +137,37 @@ function mostrarProdutos() {
   containerProdutos.innerHTML = htmlProdutos;
 }
 
-function mostrarProdutosComMap() {
-  const htmlDosProdutos = produtos
-    .map((prd) => {
-      const precoFormatado = prd.preco.toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-      });
+// window.onload = mostrarProdutos();
 
-      // A função retorna a string HTML para este produto específico
-      return `
-       <div class="product-card">
-          <img
-            class="product-img"
-            src="${prd.imagem}"
-            alt="${prd.nome}"
-          />
-          <div class="product-info">
-            <h3 class="product-name">${prd.nome}</h3>
-            <p class="product-description">
-                ${prd.descricao}
-            </p>
-            <p class="product-price">${precoFormatado}</p>
-            <button class="product-button">Ver Detalhes</button>
-          </div>
-        </div>
-    `;
-    })
-    .join(""); // O .join('') junta todos os itens do novo array em uma única string gigante.
-
-  containerProdutos.innerHTML = htmlDosProdutos;
+function pesquisar() {
+  textoPesquisa = input.value;
+  mostrarProdutos();
 }
 
-window.onload = mostrarProdutos();
+function trocarCategoria(categoria) {
+  categoriaAtual = categoria;
+  todosBotoes.forEach((botao) => {
+    botao.classList.remove("active");
+
+    if (botao.getAttribute("data-category") === categoriaAtual) {
+      botao.classList.add("active");
+    }
+  });
+
+  mostrarProdutos();
+}
+
+//tudo que estiver aqui dentro vai ser chamado quando aplicação começar
+window.addEventListener("DOMContentLoaded", function () {
+  mostrarProdutos();
+  //ouvinte de eventos
+  input.addEventListener("input", pesquisar);
+
+  //ouvinte de eventos em todos dos botoes
+  todosBotoes.forEach((botao) => {
+    botao.addEventListener("click", () => {
+      let categoria = botao.getAttribute("data-category");
+      trocarCategoria(categoria);
+    });
+  });
+});
